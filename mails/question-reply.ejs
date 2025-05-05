@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Someone Responded to Your Question</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 10px;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      margin: 20px 0;
+    }
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      color: #fff;
+      background-color: #28a745;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #777;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Hi <%= name %>, someone replied to your question!</h1>
+    </div>
+    <div class="content">
+      <p>Your question titled "<strong><%= title %></strong>" has received a new response. We encourage you to check it out and continue the discussion.</p>
+      <p>Stay engaged and collaborate with others to find the best solution!</p>
+      <p>
+        <a class="button" href="<%= appLink %>">Go to Your Question</a>
+      </p>
+      <p>If you did not ask this question, please disregard this email.</p>
+    </div>
+    <div class="footer">
+      <p>&copy; <%= new Date().getFullYear() %> LMS. All rights reserved.</p>
+    </div>
+  </div>
+</body>
+</html>
