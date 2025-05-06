@@ -143,6 +143,10 @@ export const loginUser = CatchAsyncErrors(
         return next(new ErrorHandler("Invalid email or password.", 401));
       }
 
+      if (!user.password) {
+        return next(new ErrorHandler("Invalid password.", 401));
+      }
+
       const isPasswordMatched = await user.comparePassword(password);
 
       if (!isPasswordMatched) {
@@ -286,7 +290,12 @@ export const socialAuth = CatchAsyncErrors(
       const user = await UserModel.findOne({ email });
 
       if (!user) {
-        const newUser = await UserModel.create({ email, name, avatar });
+        const newUser = await UserModel.create({
+          email,
+          name,
+          avatar,
+          isVerified: true,
+        });
         sendToken(newUser, 200, res);
       } else {
         sendToken(user, 200, res);
