@@ -6,8 +6,17 @@ import UserModel from "../models/user.model";
 export const getUserById = async (
   id: string,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
+  noCache: boolean
 ) => {
+  if (noCache) {
+    const user = await UserModel.findById(id);
+
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  }
   const userJson = await redis.get(id);
 
   if (userJson) {
