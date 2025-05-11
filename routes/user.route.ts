@@ -55,7 +55,7 @@ userRouter.get(
 userRouter.put(
   "/update-user-role",
   isAuthenticated,
-  authorizeRoles("admin"),
+  // authorizeRoles("admin"),  // Only for test
   updateUserRole
 );
 userRouter.delete(
