@@ -163,8 +163,17 @@ export const loginUser = CatchAsyncErrors(
 export const logoutUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      res.cookie("accessToken", "", { maxAge: 1 });
-      res.cookie("refreshToken", "", { maxAge: 1 });
+      res.clearCookie("accessToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
 
       const userId = req.user?._id as string;
 
