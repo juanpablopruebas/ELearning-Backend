@@ -438,6 +438,11 @@ export const updateUserRole = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id, role } = req.body;
+      if (id === process.env.PROTECTED_ADMIN_ID) {
+        res
+          .status(400)
+          .json({ success: false, message: "You can't demote this user" });
+      }
       await updateUserRoleService(res, id, role);
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
@@ -449,6 +454,12 @@ export const deleteUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { id } = req.params;
+
+      if (id === process.env.PROTECTED_ADMIN_ID) {
+        res
+          .status(400)
+          .json({ success: false, message: "You can't delete this user" });
+      }
 
       const user = await UserModel.findById(id);
 
