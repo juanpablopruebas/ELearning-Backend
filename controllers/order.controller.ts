@@ -97,7 +97,7 @@ export const createOrder = CatchAsyncErrors(
 
       res.status(201).json({
         success: true,
-        order: course,
+        userCourses: user.courses,
       });
     } catch (error: any) {
       console.log("error", error);
