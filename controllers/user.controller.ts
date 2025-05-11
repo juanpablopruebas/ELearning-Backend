@@ -248,7 +248,7 @@ export const updateAccessToken = CatchAsyncErrors(
 export const getUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const noCache = !!req.query.noCache;
+      const withCache = req.query.withCache === "true";
       const accessToken = req.cookies.accessToken;
 
       if (!accessToken) {
@@ -281,7 +281,7 @@ export const getUser = CatchAsyncErrors(
         return next(new ErrorHandler("Invalid userId.", 400));
       }
 
-      await getUserById(userId, res, next, noCache);
+      await getUserById(userId, res, next, withCache);
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
