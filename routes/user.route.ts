@@ -9,6 +9,7 @@ import {
   registerUser,
   socialAuth,
   updateAccessToken,
+  updateMyselfRole,
   updateUser,
   updateUserAvatar,
   updateUserPassword,
@@ -55,8 +56,14 @@ userRouter.get(
 userRouter.put(
   "/update-user-role",
   isAuthenticated,
-  // authorizeRoles("admin"),  // Only for test
+  authorizeRoles("admin"),
   updateUserRole
+);
+userRouter.put(
+  "/update-myself-role",
+  isAuthenticated,
+  // authorizeRoles("admin"),  // Only for demo
+  updateMyselfRole
 );
 userRouter.delete(
   "/delete-user/:id",

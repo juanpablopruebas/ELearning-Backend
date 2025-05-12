@@ -450,6 +450,35 @@ export const updateUserRole = CatchAsyncErrors(
   }
 );
 
+export const updateMyselfRole = CatchAsyncErrors(
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { id, role } = req.body;
+
+      const user = await UserModel.findById(id);
+
+      if (!user) {
+        return next(new ErrorHandler("User not found.", 404));
+      }
+
+      const userUpdated = await UserModel.findByIdAndUpdate(
+        id,
+        { role },
+        { new: true }
+      );
+
+      await redis.set(user.id, JSON.stringify(userUpdated), "EX", 604800);
+
+      res.status(201).json({
+        success: true,
+        user: userUpdated,
+      });
+    } catch (error: any) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  }
+);
+
 export const deleteUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
