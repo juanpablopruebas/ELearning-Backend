@@ -248,7 +248,6 @@ export const updateAccessToken = CatchAsyncErrors(
 export const getUser = CatchAsyncErrors(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const withCache = req.query.withCache === "true";
       const accessToken = req.cookies.accessToken;
 
       if (!accessToken) {
@@ -267,21 +266,21 @@ export const getUser = CatchAsyncErrors(
         return next(new ErrorHandler("Access token is not valid.", 400));
       }
 
-      const user = await redis.get(decoded.id);
+      const userJson = await redis.get(decoded.id);
 
-      if (!user) {
-        return next(new ErrorHandler("User not found.", 404));
+      if (!userJson) {
+        return res.status(200).json({
+          success: true,
+          user: null,
+        });
       }
 
-      req.user = JSON.parse(user);
+      const parsedUser = JSON.parse(userJson);
 
-      const userId = req.user?._id as string;
-
-      if (!userId) {
-        return next(new ErrorHandler("Invalid userId.", 400));
-      }
-
-      await getUserById(userId, res, next, withCache);
+      return res.status(200).json({
+        success: true,
+        user: parsedUser,
+      });
     } catch (error: any) {
       return next(new ErrorHandler(error.message, 500));
     }
