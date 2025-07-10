@@ -9,7 +9,7 @@ export const getUserById = async (
   next: NextFunction,
   withCache: boolean
 ) => {
-  if (withCache) {
+  if (!withCache) {
     const user = await UserModel.findById(id);
 
     return res.status(200).json({
