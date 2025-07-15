@@ -51,7 +51,9 @@ export const updateCourse = CatchAsyncErrors(
       }
 
       if (thumbnail && !thumbnail.startsWith("https")) {
-        await cloudinary.v2.uploader.destroy(thumbnail.public_id);
+        if (courseData?.thumbnail.public_id) {
+          await cloudinary.v2.uploader.destroy(courseData.thumbnail.public_id);
+        }
 
         const mycloud = await cloudinary.v2.uploader.upload(thumbnail, {
           folder: "courses",
@@ -81,6 +83,7 @@ export const updateCourse = CatchAsyncErrors(
         course: updatedCourse,
       });
     } catch (error: any) {
+      console.log("asdasd", error);
       return next(new ErrorHandler(error.message, 500));
     }
   }
